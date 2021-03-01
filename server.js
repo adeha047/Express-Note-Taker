@@ -1,7 +1,8 @@
 const express = require('express');
-const path = require ('path')
+const path = require ('path');
 const app = express();
 const fs = require("fs");
+const { response } = require('express');
 
 const PORT = 3000;
 
@@ -24,6 +25,7 @@ app.post("/api/notes", (req, res) => {
     notes.push(data)
     console.log(notes)
     res.sendFile(path.join(__dirname, "db/db.json"));
+    res.json(data)
 
 }); 
 

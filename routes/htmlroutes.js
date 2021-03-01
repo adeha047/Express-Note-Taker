@@ -1,4 +1,4 @@
-var path = require("path");
+const path = require("path");
 
 module.exports = function(app) {
     // HTML GET Requests
@@ -12,7 +12,7 @@ module.exports = function(app) {
 
     // If no matching route is found default to home
     app.get("*", function (req, res) {
-        res.sendFile(path.join(__dirname, "notes.html"));
+        res.sendFile(path.join(__dirname, "../public/notes.html"));
     });
   };
 

@@ -16,6 +16,15 @@ module.exports = function(app) {
   
 }  
 
+app.post("/api/notes", (req, res) => {
+    let data = req.body;
+    console.log(data);
+    notes.push(data)
+    console.log(data)
+}); 
+
+
+
 
 // * GET `/api/notes` - Should read the `db.json` file and return all saved notes as JSON.
 

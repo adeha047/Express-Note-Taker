@@ -6,21 +6,29 @@ const fs = require("fs");
 module.exports = function(app) {
     // API GET Requests
     // Below code handles when users "visit" a page.
-    // In each of the below cases when a user visits a link
-    // (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
+    // when a user visits a link (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
     // ---------------------------------------------------------------------------
   
     app.get("/api/notes", function(req, res) {
-      res.json(noteData);
+      res.json(database);
     });
   
 }  
 
 app.post("/api/notes", (req, res) => {
+    const notesJson = fs.readFileSync(path.join(__dirname, '../db/db.json'));
+    const notes = JSON.parse(notesJson)
     let data = req.body;
     console.log(data);
-    notes.push(data)
+    database.push(data)
     console.log(data)
+    const uniqueId = Math.floor(Math.random() * 100000);
+    fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes))
+  res.json(notes);
+}); 
+
+app.delete("/api/notes", (req, res) => {
+
 }); 
 
 

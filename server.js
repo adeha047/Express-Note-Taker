@@ -1,6 +1,5 @@
 const express = require("express");
-
-const app = express();
+let app = express();
 
 // Sets an initial port. We"ll use this later in our listener
 const PORT = process.env.PORT || 8080;

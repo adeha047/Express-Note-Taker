@@ -31,6 +31,9 @@ app.delete("/api/notes/:id", (req, res) => {
     const newNotes = parseInt(req.params.id); 
     const notesJson = fs.readFileSync(path.join(__dirname, '../db/db.json'));
 
+    //for loop to delete the previous id? 
+    //for ()
+
 }); 
 
 

@@ -1,40 +1,47 @@
 const database = require("../db/db.json")
-
+const path = require("path")
 const fs = require("fs");
+const { waitForDebugger } = require("inspector");
 
 
-module.exports = function(app) {
-    // API GET Requests
-    // Below code handles when users "visit" a page.
-    // when a user visits a link (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
-    // ---------------------------------------------------------------------------
-  
-    app.get("/api/notes", function(req, res) {
-      res.json(database);
-    });
-  
-}  
+module.exports = function (app) {
+  // API GET Requests
+  // Below code handles when users "visit" a page.
+  // when a user visits a link (ex: localhost:PORT/api/admin... they are shown a JSON of the data in the table)
+  // ---------------------------------------------------------------------------
 
-app.post("/api/notes", (req, res) => {
+  app.get("/api/notes", function (req, res) {
     const notesJson = fs.readFileSync(path.join(__dirname, '../db/db.json'));
     const notes = JSON.parse(notesJson)
-    let data = req.body;
-    console.log(data);
-    database.push(data)
-    console.log(data)
-    const uniqueId = Math.floor(Math.random() * 100000);
-    fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes))
-  res.json(notes);
-}); 
+    res.json(notes);
+  });
 
-app.delete("/api/notes/:id", (req, res) => {
-    const newNotes = parseInt(req.params.id); 
+
+
+  app.post("/api/notes", (req, res) => {
     const notesJson = fs.readFileSync(path.join(__dirname, '../db/db.json'));
+    const notes = JSON.parse(notesJson)
+    const uniqueId = Math.floor(Math.random() * 100000);
+    let data = {
+      id: uniqueId,
+      title: req.body.title,
+      text: req.body.text,
+    };
+    notes.push(data)
+    console.log(data)
+    fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes))
+    res.json(data);
+  });
 
-    //for loop to delete the previous id? 
-    //for ()
-
-}); 
+  app.delete("/api/notes/:id", (req, res) => {
+    const selectedNote = parseInt(req.params.id);
+    // console.log(selectedNote)
+    const notesJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../db/db.json')));
+    const filteredNotes = notesJson.filter(note => note.id != selectedNote)
+    fs.writeFileSync(path.join(__dirname, '../db/db.json'), JSON.stringify(filteredNotes))
+    res.end()
+  });
+}
 
 
 
